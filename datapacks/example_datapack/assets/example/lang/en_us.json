@@ -1,0 +1,7 @@
+{
+  "pack.example_datapack.description": "An example data pack for Origins",
+  "origin.example.example_origin.name": "Example Origin",
+  "origin.example.example_origin.description": "Example Origin Description",
+  "power.example.example_power.name": "Example Power",
+  "power.example.example_power.description": "Example Power Description"
+}

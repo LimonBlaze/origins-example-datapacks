@@ -1,0 +1,10 @@
+{
+  "powers": [
+    "example:example_power"
+  ],
+  "icon": {
+    "item": "minecraft:command_block"
+  },
+  "order": 0,
+  "impact": 1
+}
