@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "origins": [
+    "another_example:another_example_origin"
+  ]
+}

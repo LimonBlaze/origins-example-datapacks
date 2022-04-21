@@ -1,0 +1,10 @@
+{
+  "powers": [
+    "another_example:another_example_power"
+  ],
+  "icon": {
+    "item": "minecraft:light"
+  },
+  "order": 0,
+  "impact": 1
+}

@@ -45,11 +45,17 @@ dependencies {
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "com.github.apace100:origins-fabric:${project.origins_version}"
+	//You may also add other dependencies like Origins:Classes
 }
 
-def datapackDir = new File(rootProject.rootDir.absolutePath + "/datapacks")
-def datapacks = datapackDir == null ? new ArrayList<>() :
-		Arrays.stream(datapackDir.listFiles()).filter(File::isDirectory).toList()
+//Define the datapacks in the project, should locate at datapacks/[DATAPACK_DIR]
+def datapacks = ['example_datapack', 'another_example_datapack']
+
+//Duplicate files in datapacks, should be excluded when passing to resources
+//Instead using resources/data/origins/origin_layers/origin.json to define origins being tested
+//When using Origins:Classes, do the same thing to the origins-classes:class origin layer file
+def excludedResources = ['pack.mcmeta', 'pack.png',
+						 'data/origins/origin_layers/origin.json']
 
 processResources {
 	inputs.property "version", project.version
@@ -58,24 +64,28 @@ processResources {
 		expand "version": project.version
 	}
 
-	for(File datapack : datapacks) {
-		from(datapack.absolutePath) {
-			exclude('pack.mcmeta')
+	datapacks.each {def datapack ->
+		from("/datapacks/${datapack}") {
+			exclude excludedResources
 		}
 	}
 }
 
-task releaseDatapacks(type: Zip) {
-	for(File datapack : datapacks) {
-		from(datapack.absolutePath)
-		if(project.use_license.toBoolean()) from("LICENSE")
-		def fileName = project.properties.get(datapack.name + '_name')
-		if(fileName == null) fileName = datapack.name
-		destinationDir file('out/' + fileName)
-		baseName "${fileName}"
-		version project.properties.get(datapack.name + '_version')
+datapacks.each {def datapack ->
+	def fileName = project.properties.get(datapack + "_name")
+	task "releaseDatapack-${datapack}" (type: Zip) {
+		from "/datapacks/${datapack}"
+		if(project.use_license.toBoolean()) {
+			from("LICENSE")
+		}
+		destinationDir = file("out/${datapack}")
+		archiveBaseName = fileName == null ? datapack : fileName
+		archiveVersion = project.properties.get(datapack + "_version")
 	}
 }
+
+//Release all datapacks as zip files to out/[datapackName]
+task releaseDatapacks(dependsOn: tasks.matching { Task task -> task.name.startsWith("releaseDatapack-")})
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = 17
