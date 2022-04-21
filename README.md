@@ -1,7 +1,7 @@
 # Origins Example Datapack
 
 ## How To Use?
-1. Clone the repository using `git clone https://github.com/LimonBlaze/origins-example-datapacks`
+1. Use this as a repo template, or clone this repo if you don't feel like having a git repo.
 2. Open the build.gradle in your IDE, see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using for more information.
 3. Create your datapack directory under `[PROJECT_DIR]/datapacks/[DATAPACK_DIR]` like the example ones, prefer using a directory name like minecraft's namespace.
 4. Specify your datapacks by adding their directory name to the `datapacks` field in `build.gradle`.
